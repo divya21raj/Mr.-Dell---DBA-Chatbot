@@ -2,6 +2,7 @@
  * A Bot for Slack!
  */
 
+const request = require("request");
 
 /**
  * Define a function for initiating a conversation on installation
@@ -107,13 +108,14 @@ controller.on('direct_message,mention,direct_mention', function (bot, message) {
        
        bot.reply(message, message.text + ' - I heard you loud and clear boss.');
 
-       var data = {
+       var data = {form:{
             username: message.user,
             query: message.text
-        };
+        }};
        
-       request.post('http://34.93.146.204:8005', data, function (error, response, body) {
-            console.log(response.body)
-        });
+        console.log(data)
+        request.post('http://34.93.146.204:8005/', data, function (error, response, body) {
+                console.log(response.body)
+            });
    });
 });
