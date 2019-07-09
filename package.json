@@ -1,0 +1,24 @@
+{
+  "name": "mr-dell",
+  "version": "1.0.0",
+  "description": "The awesomest bot evar.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slack",
+    "bot"
+  ],
+  "author": "Divya Raj",
+  "license": "MIT",
+  "engines": {
+    "node": "5.1.1"
+  },
+  "dependencies": {
+    "botkit": "0.2.2",
+    "botkit-storage-mongo": "^1.0.2",
+    "mongodb": "^1.4.39"
+  }
+}
