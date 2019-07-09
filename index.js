@@ -106,7 +106,7 @@ controller.on('direct_message,mention,direct_mention', function (bot, message) {
        }
        console.log(message)
        
-       bot.reply(message, message.text + ' - I heard you loud and clear boss.');
+       bot.reply(message, message.text + ' - Working on it boss!');
 
        var data = {form:{
             username: message.user,
@@ -115,7 +115,8 @@ controller.on('direct_message,mention,direct_mention', function (bot, message) {
        
         console.log(data)
         request.post('http://34.93.146.204:8005/', data, function (error, response, body) {
-                console.log(response.body)
+                console.log(JSON.parse(response.body).topScoringIntent)
+                bot.reply(message, JSON.parse(response.body).topScoringIntent.intent);
             });
    });
 });
