@@ -86,10 +86,19 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
 });
 
-controller.hears('hello', 'direct_message', function (bot, message) {
-    bot.reply(message, 'Hullo! :wave: \n Kya chahiye tujhe?');
+controller.hears(['hello', 'hi', 'greetings'], 'direct_message', function (bot, message) {
+    bot.reply(message, 'Hullo! :wave: \n How may I help you today?');
 });
 
+controller.hears(['daily digest - dba'], 'direct_message', function (bot, message) {
+    bot.reply(message, 'Here\'s your digest from the last 24 hours :point_right:');
+    bot.reply(message, 'Your DBs - ');
+});
+
+controller.hears(['daily digest - dev'], 'direct_message', function (bot, message) {
+    bot.reply(message, 'Here\'s your digest from the last 24 hours :point_right:');
+    bot.reply(message, 'Commits Made = 5\nQueries Made = 27\nSuccess Rate = 94%\nIssues = 5 above average time\nRequests pending = 2/3');
+});
 
 /**
  * AN example of what could be:
@@ -105,18 +114,28 @@ controller.on('direct_message,mention,direct_mention', function (bot, message) {
            console.log(err)
        }
        console.log(message)
-       
-       bot.reply(message, message.text + ' - Working on it boss!');
 
-       var data = {form:{
-            username: message.user,
-            query: message.text
-        }};
-       
-        console.log(data)
-        request.post('http://34.93.146.204:8005/', data, function (error, response, body) {
-                console.log(JSON.parse(response.body).topScoringIntent)
-                bot.reply(message, JSON.parse(response.body).topScoringIntent.intent);
-            });
+       if(message.text.includes('joke') || message.text.includes('fun')){
+            var rand = Math.random();
+            if(rand>0.6)
+                bot.reply(message, 'Sure!\n3 Database admins walk into a NoSQL bar.\n They soon walk out because they couldn\'t find a table.');
+            else if(rand >0.3)
+                bot.reply(message, 'Sure!\nI\'m planning to make a film series on databases.\nI\'ve got the first part ready, but I can\'t think of a SQL.');
+            else
+                bot.reply(message, 'Sure!\nJesus and Satan were arguing about who was better with computers, when they decided to see for sure by having a contest. Whoever could demonstrate greater skill, as judged by God, would be deemed the winner. So the two sat down at their computers and began typing, furiously creating spreadsheets, databases, and dank memes. All of a sudden, there was a blackout, and as God\'s cloud service was not available, Satan was furious because all his work was lost. Once power was restored, however, Satan saw Jesus quietly posting and printing his work. When asked how he did it, God simply said: "Jesus saves."');
+       }else{    
+            bot.reply(message, message.text + ' - Working on it boss!');
+
+            var data = {form:{
+                    username: message.user,
+                    query: message.text
+                }};
+            
+                console.log(data)
+                request.post('http://34.93.146.204:8005/', data, function (error, response, body) {
+                        console.log(JSON.parse(response.body).topScoringIntent)
+                        bot.reply(message, JSON.parse(response.body).result);
+                    });
+        }
    });
 });
